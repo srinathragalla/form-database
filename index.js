@@ -21,11 +21,17 @@ var express = require("express");
 var mongoose = require("mongoose");
 const port = 80;
 const app = express();
+
+const DB = 'mongodb+srv://Srinath:Ratlas@cluster0.rjpjz.mongodb.net/loginlist?retryWrites=true&w=majority'
    
-mongoose.connect("mongodb://localhost/projectDG", {
+// mongoose.connect("mongodb://localhost/projectDG",
+mongoose.connect(DB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
+}).then(() => {
+  console.log(`connection successful`);
+}).catch((err) => console.log(`no connection`));
+  
 var db = mongoose.connection;
    
 app.use(express.json());
@@ -73,7 +79,7 @@ app.post("/formFillUp", (req, res) => {
   return res.redirect("formSubmitted.html");
 });
    
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
   console.log(`The application started 
   successfully on port ${port}`);
 });
